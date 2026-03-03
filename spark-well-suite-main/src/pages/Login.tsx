@@ -17,12 +17,15 @@ const Login = () => {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // Use environment variable for API base URL
+  const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = `${BASE_URL}/auth/google`;
   };
 
   const handleGithubLogin = () => {
-    window.location.href = "http://localhost:5000/auth/github";
+    window.location.href = `${BASE_URL}/auth/github`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -101,7 +104,8 @@ const Login = () => {
 
         toast({
           title: "Account created!",
-          description: "Your account has been created successfully. Please sign in to continue.",
+          description:
+            "Your account has been created successfully. Please sign in to continue.",
         });
 
         // Clear form and redirect to login page
@@ -148,8 +152,6 @@ const Login = () => {
               ? "Sign in to continue tracking your productivity"
               : "Start your productivity journey today"}
           </p>
-
-
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
