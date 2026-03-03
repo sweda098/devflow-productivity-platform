@@ -16,39 +16,53 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection
+// ======================
+// Database Connection
+// ======================
 mongoose
-  .connect(
-    "mongodb+srv://sweda123:Tn38as1020-@cluster0.cfuac6u.mongodb.net/devflow?retryWrites=true&w=majority",
-  )
-  .then(() => console.log("Connected to MongoDB - devflow"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ Connected to MongoDB - devflow");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
+  });
 
-// Health check route (must be before other /api/health routes)
+// ======================
+// Routes
+// ======================
+
+// Health check route
 app.get("/api/health-check", (req, res) => {
   res.json({ status: "Server is running", database: "devflow" });
 });
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/health", healthRoutes);
 app.use("/api/standup", standupRoutes);
 app.use("/api/insights", insightRoutes);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Something went wrong!" });
-});
+// ======================
+// Error Handling
+// ======================
 
 // 404 handler
 app.use("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong!" });
+});
+
+// ======================
+// Server Start
+// ======================
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Database: devflow`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
