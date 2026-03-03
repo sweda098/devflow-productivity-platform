@@ -21,11 +21,11 @@ const Login = () => {
   const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const handleGoogleLogin = () => {
-    window.location.href = `${BASE_URL}/auth/google`;
+    window.location.href = `${BASE_URL}/api/auth/google`;
   };
 
   const handleGithubLogin = () => {
-    window.location.href = `${BASE_URL}/auth/github`;
+    window.location.href = `${BASE_URL}/api/auth/github`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
