@@ -17,16 +17,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Database connection
-mongoose.connect("mongodb://localhost:27017/devflowdb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("Connected to MongoDB - devflowdb"))
-.catch((err) => console.error("MongoDB connection error:", err));
+mongoose
+  .connect(
+    "mongodb+srv://sweda123:Tn38as1020-@cluster0.cfuac6u.mongodb.net/devflow?retryWrites=true&w=majority",
+  )
+  .then(() => console.log("Connected to MongoDB - devflow"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Health check route (must be before other /api/health routes)
 app.get("/api/health-check", (req, res) => {
-  res.json({ status: "Server is running", database: "devflowdb" });
+  res.json({ status: "Server is running", database: "devflow" });
 });
 
 // Routes
@@ -50,5 +50,5 @@ app.use("*", (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Database: devflowdb`);
+  console.log(`Database: devflow`);
 });
